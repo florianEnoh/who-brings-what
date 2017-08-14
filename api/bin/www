@@ -1,0 +1,8 @@
+const server  = require('../server');
+
+server.start()
+    .then(function() {
+        console.log('server is available on http://localhost:8080/');
+    }).catch(function(err) {
+        console.log(err);
+    });
