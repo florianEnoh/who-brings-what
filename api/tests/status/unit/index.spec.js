@@ -1,9 +1,7 @@
-const { describe, it, beforeEach, afterEach } = require('mocha');
-const { expect } = require('chai');
-const Hapi = require('hapi');
-const sinon = require('sinon');
-const server = require('../../../server').BootStrapTestHelper();
-const route = require('../../../app/features/status').register;
+require('rootpath')();
+const { describe, it, expect, server } = require('tests/helper');
+const route = require('app/features/status');
+const { name, version, description } = require('package');
 
 describe('Unit | Handler | Status Index ', function() {
 
@@ -11,10 +9,10 @@ describe('Unit | Handler | Status Index ', function() {
 
         it('should have an attributes', () => {
             // then
-            expect(route.attributes).to.exist;
-            expect(route.attributes).to.be.an('object');
-            expect(route.attributes.name).to.equal('status-api');
-            expect(route.attributes).to.have.property('version');
+            expect(route.register.attributes).to.exist;
+            expect(route.register.attributes).to.be.an('object');
+            expect(route.register.attributes.name).to.equal('status-api');
+            expect(route.register.attributes).to.have.property('version');
         });
 
     });
@@ -30,6 +28,7 @@ describe('Unit | Handler | Status Index ', function() {
             }, (res) => {
                 // then
                 expect(res.statusCode).to.equal(200);
+                expect(res.result).to.deep.equal({ name, version, description });
             });
         });
     });

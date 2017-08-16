@@ -1,11 +1,7 @@
-const { describe, it, beforeEach, afterEach } = require('mocha');
-const { expect } = require('chai');
-const Hapi = require('hapi');
-const sinon = require('sinon');
-const server = require('../../../server').BootStrapTestHelper();
-const route = require('../../../app/features/status').register;
-const { name, version, description } = require('./../../../package');
-const statusHandler = require('../../../app/features/status/statusHandler');
+require('rootpath')();
+const { describe, it, expect, server, sinon } = require('tests/helper');
+const { name, version, description } = require('package');
+const statusHandler = require('app/features/status/statusHandler');
 
 describe('Unit | Handler | Status Handler ', function() {
 
