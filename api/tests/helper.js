@@ -1,12 +1,14 @@
-const server = require('../server');
+const sinon = require('sinon');
+const { expect } = require('chai');
+const server = require('server').BootStrapTestHelper();
+const { describe, it, beforeEach, afterEach } = require('mocha');
 
-exports.bootApi = function bootApi() {
-    beforeEach(function() {
-        return server.start();
-    });
-
-
-    afterEach(function() {
-        return server.stop();
-    });
-}
+module.exports = {
+    it,
+    sinon,
+    server,
+    expect,
+    describe,
+    beforeEach,
+    afterEach
+};
