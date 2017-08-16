@@ -9,6 +9,7 @@ coverage
 
 # Dependency directories
 api/node_modules/
+node_modules/
 
 # dotenv environment variables file
 .env
