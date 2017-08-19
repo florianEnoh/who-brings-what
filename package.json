@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "cd api && npm run test"
+        "test": "cd api && npm install && npm run test"
     },
     "author": "",
     "license": "AGPLV3",
