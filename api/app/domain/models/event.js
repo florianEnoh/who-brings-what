@@ -12,4 +12,4 @@ const eventSchema = new Schema({
     comments: String
 });
 
-module.exports = Mongoose.models.event || Mongoose.model('events', eventSchema);
+module.exports = Mongoose.models.events || Mongoose.model('events', eventSchema);
