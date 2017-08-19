@@ -5,7 +5,7 @@
     "main": "server.js",
     "scripts": {
         "start": "nodemon ./bin/www",
-        "test": "mocha --reporter spec --recursive tests/* --watch",
+        "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha --reporter spec --recursive tests/* --watch",
         "coverage": "istanbul cover --report html _mocha  tests/*/"
     },
     "author": "Florian",
