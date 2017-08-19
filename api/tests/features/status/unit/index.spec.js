@@ -3,7 +3,7 @@ const { describe, it, expect, server } = require('tests/helper');
 const route = require('app/features/status');
 const { name, version, description } = require('package');
 
-describe('Unit | Handler | Status Index ', function() {
+describe('Unit | Route | Status Index ', function() {
 
     describe('Server', () => {
 
