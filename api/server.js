@@ -1,6 +1,7 @@
 const Hapi = require('hapi');
 const plugins = require('./app/infrastructure/plugins');
 const routes = require('./app/infrastructure/routes');
+const config = require('./app/infrastructure/config');
 
 module.exports = {
     instance: null,
@@ -36,8 +37,8 @@ module.exports = {
 
     listen() {
         this.instance.connection({
-            host: 'localhost',
-            port: 8080,
+            host: config.server.host,
+            port: config.server.port,
             routes: { "cors": true }
         });
     }
