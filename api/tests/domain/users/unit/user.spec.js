@@ -14,7 +14,7 @@ describe('Unit | Model | User Schema ', function() {
             expect(user).to.be.an.instanceof(User);
         });
 
-        describe('Validattions', () => {
+        describe('Validations', () => {
 
             it('should be invalid, when username is empty', () => {
                 // then
