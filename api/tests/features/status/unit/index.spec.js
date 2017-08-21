@@ -1,9 +1,15 @@
 require('rootpath')();
-const { describe, it, expect, server } = require('tests/helper');
+const { describe, it, expect, beforeEach } = require('tests/helper');
 const route = require('app/features/status');
 const { name, version, description } = require('package');
 
 describe('Unit | Route | Status Index ', function() {
+
+    let server;
+
+    beforeEach(() => {
+        server = require('server').BootStrapTestHelper('status');
+    });
 
     describe('Server', () => {
 
@@ -17,15 +23,15 @@ describe('Unit | Route | Status Index ', function() {
 
     });
 
-    describe('Route Get /status', () => {
+    describe('Route Get /api/status', () => {
 
         it('should exist', () => {
             // when
-            server.inject({
+            return server.inject({
                 method: 'GET',
                 url: '/api/status',
                 payload: {}
-            }, (res) => {
+            }).then((res) => {
                 // then
                 expect(res.statusCode).to.equal(200);
                 expect(res.result).to.deep.equal({ name, version, description });
