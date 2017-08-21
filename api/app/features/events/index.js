@@ -1,11 +1,11 @@
-const { create } = require('./eventHandler');
+const eventHandler = require('./eventHandler');
 
 exports.register = function(server, options, next) {
     server.route({
         method: 'POST',
         path: '/events',
         config: {
-            handler: create,
+            handler: eventHandler.create,
             tags: ['api']
         }
 
