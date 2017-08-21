@@ -30,9 +30,11 @@ module.exports = {
             });
     },
 
-    BootStrapTestHelper() {
-        this.create();
-        return this.instance;
+    BootStrapTestHelper(route) {
+        const server = new Hapi.Server();
+        server.connection({ port: null });
+        server.register({ register: require(`./app/features/${route}`) }, { routes: { prefix: '/api' } });
+        return server;
     },
 
     listen() {
