@@ -1,13 +1,21 @@
 require('rootpath')();
-const { describe, it, expect, server, sinon } = require('tests/helper');
+const Hapi = require('hapi');
+const { describe, it, expect, sinon, before, after, beforeEach } = require('tests/helper');
 const route = require('app/features/events');
-const handler = require('app/features/events/eventHandler');
+const eventHandler = require('app/features/events/eventHandler');
+
 
 describe('Unit | Route | Event Index ', function() {
 
+    let server;
+
+    beforeEach(() => {
+        server = require('server').BootStrapTestHelper('events');
+    });
+
     describe('Server', () => {
 
-        it('should have an attributes', () => {
+        it('should have an object, version, and name attribute', () => {
             // then
             expect(route.register.attributes).to.exist;
             expect(route.register.attributes).to.be.an('object');
@@ -17,31 +25,27 @@ describe('Unit | Route | Event Index ', function() {
 
     });
 
-    describe('Route Get /events', () => {
+    describe('Route POST /api/events', () => {
+
+        before(() => {
+            sinon.stub(eventHandler, 'create').callsFake((request, reply) => reply('ok'));
+        });
+
+        after(() => {
+            eventHandler.create.restore();
+        });
 
         it('should exist', () => {
             // when
-            server.inject({
+            return server.inject({
                 method: 'POST',
                 url: '/api/events',
-                payload: {}
-            }, (res) => {
+                payload: {
+                    username: 'Flo'
+                }
+            }).then((res) => {
                 // then
                 expect(res.statusCode).to.equal(200);
-            });
-        });
-
-        it('should call route handler', () => {
-            const createStub = sinon.stub(handler, 'create').callsFake((request, reply) => { reply('ok') });
-
-            server.inject({
-                method: 'POST',
-                url: '/api/events',
-                payload: {}
-            }, (res) => {
-                // then
-                sinon.assert.calledOnce(handler.create);
-                createStub.restore();
             });
         });
     });
