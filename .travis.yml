@@ -7,4 +7,4 @@ cache:
   directories:
     - "api/node_modules"
 after_success:
-  - coveralls
+  - npm run coveralls
