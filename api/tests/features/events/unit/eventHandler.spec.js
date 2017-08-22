@@ -1,10 +1,8 @@
 require('rootpath')();
-const Boom = require('boom');
 const { describe, it, expect, server, sinon, beforeEach, afterEach } = require('tests/helper');
 const eventHandler = require('app/features/events/eventHandler');
 const hostService = require('app/domain/services/host-service');
 const eventService = require('app/domain/services/event-service');
-const { CreationError } = require('app/domain/errors');
 
 describe('Unit | Handler | Event Handler ', function() {
 
