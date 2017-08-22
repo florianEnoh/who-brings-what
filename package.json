@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "cd api && npm install && npm run test",
-        "cover": "cd api && npm run coverage"
+        "cover": "cd api && npm run coverage",
+        "coveralls": "cd api && npm run coveralls"
     },
     "author": "",
     "license": "AGPLV3",
