@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-  - "7.9.0"
+- 7.9.0
 services:
-  - mongodb
+- mongodb
 cache:
   directories:
-    - "api/node_modules"
+  - api/node_modules
 after_success:
-  - npm run coveralls
+- npm run coveralls
+env:
+  secure: oHhGRmItqsPAWf2hioWYqiBOh4W0IKGhwRBke54UgLypxT4k3sg3DoJEYfxw3KztQxT1y2auC5gR0ecYAZ7fRIxe8615NIiynHXu3O6J8a2JPXXkonLP+v/oh0y/Dw0NjdKaYAP/wJpX9tupqwoK7BdLiPw/1eOZJ0/YU90v548JwNFGGxHG7UL0k3I1UA1LCgBlyqBPs7kD/3D74KVkCm4PsaQwrkAsIs9PlTSWOjgJKHCgeiOI04WtA1EpPhAVHED/fVlniEYNXJDkj1arGbRn4bzlrrfgJL14X4ICBmwIHqI4o51NTIYUVVsAricgT7t8KnrkCs39HzcEYbbdgAIVVubnhE3sH0mQO2MHeiTSK49+MngpBXtDLM9PqVN90Gd4OMv2WVVFJxe+LAZmnw3mP9P+STSBtlm+xJc7Gp8WLfpNV5Qfp9ZSIcAytcNleFZIVIaTDCtzynINUu16JSfV34Llj8SJS2vq16aBY0qqi3RtctDempSrJB9zWrfr9ArI6UaLpIPWyrXQb3jJqpj0+nWt1cCG5/2WhaOcGWiGkeibzggV4+ClLSMLD3+uv+CDp3NOuB4XLa3efURqMEojZRPbHyuGDpIFX/lU6M2bWh5ErrnDjYGGaskFWN1NqX6y4y96+9eT2O1JKxROOK2EFmUVjGGj+C7HuawnfGc=
