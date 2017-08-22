@@ -6,3 +6,5 @@ services:
 cache:
   directories:
     - "api/node_modules"
+after_success:
+  - coveralls
