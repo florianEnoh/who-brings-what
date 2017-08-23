@@ -4,4 +4,10 @@ class CreationError extends Error {
     }
 }
 
-module.exports = { CreationError };
+class HostCreationError extends Error {
+    constructor(message) {
+        super(message);
+    }
+}
+
+module.exports = { CreationError, HostCreationError };
