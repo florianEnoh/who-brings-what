@@ -1,5 +1,6 @@
-const Mongoose = require('mongoose'),
-    config = require('./config');
+const Mongoose = require('mongoose');
+Mongoose.Promise = Promise;
+const config = require('./config');
 
 
 module.exports = {
