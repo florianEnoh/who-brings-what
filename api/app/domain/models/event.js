@@ -2,15 +2,15 @@ const Mongoose = require('mongoose'),
     Schema = Mongoose.Schema;
 
 const eventSchema = new Schema({
-    title: { type: String, required: [true, 'A title is required'] },
+    title: { type: String, required: true },
     location: String,
     date: String,
     url: String,
-    hostId: { type: Schema.Types.ObjectId, required: [true, 'A host is required'] },
-    guestsIds: [{ type: Schema.Types.ObjectId }],
+    hostId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    guestsIds: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     needs: [{ name: String, quantity: Number }],
     comments: String,
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = Mongoose.models.events || Mongoose.model('events', eventSchema);
+module.exports = Mongoose.models.Event || Mongoose.model('Event', eventSchema);
