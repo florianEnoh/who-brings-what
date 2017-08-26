@@ -25,19 +25,17 @@ describe('Unit | Model | User Schema ', function() {
 
                 // then
                 expect(validation.errors.username).to.exist;
-                expect(validation.errors['username'].message).to.eql('Username is not valid');
             });
 
             it('should be invalid, when email is not valid', () => {
                 // then
-                const user = new User({ username: 'Conqueror', email: '' });
+                const user = new User({ username: 'Conqueror', email: 'flo@' });
 
                 // when
                 const validation = user.validateSync();
 
                 // then
                 expect(validation.errors.email).to.exist;
-                expect(validation.errors['email'].message).to.eql('Email is not valid');
             });
 
             it('should be valid, when username is not empty', () => {
