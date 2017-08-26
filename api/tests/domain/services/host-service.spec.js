@@ -164,6 +164,20 @@ describe('Unit | Service | Host ', function() {
                 });
             });
 
+            it('should reject a promise also when error is unknown', () => {
+                // given
+                const error = new Error();
+                UserRepository.save.rejects(error);
+
+                // when
+                const promise = hostService.createHost({ email: '' });
+
+                // then
+                return promise.catch((err) => {
+                    expect(err).to.eql(error);
+                });
+            });
+
         });
 
     });

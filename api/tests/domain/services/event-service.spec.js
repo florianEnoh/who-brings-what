@@ -4,7 +4,7 @@ const eventService = require('app/domain/services/event-service');
 const eventRepository = require('app/infrastructure/repositories/event-repository');
 const { EventCreationError } = require('app/domain/errors/errors');
 
-describe.only('Unit | Service | Event ', function() {
+describe('Unit | Service | Event ', function() {
 
     describe('#createEvent', () => {
 
