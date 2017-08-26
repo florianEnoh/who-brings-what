@@ -19,6 +19,7 @@
         "good-console": "^6.4.0",
         "good-squeeze": "^5.0.2",
         "hapi": "^16.5.2",
+        "joi": "^10.6.0",
         "mocha": "^3.3.0",
         "mongoose": "^4.11.7",
         "rootpath": "^0.1.2",
