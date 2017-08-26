@@ -30,7 +30,7 @@ describe('Unit | Service | Event ', function() {
             eventRepository.save.resolves('');
 
             // when
-            eventService.createEvent({});
+            eventService.createEvent();
 
             // then
             sinon.assert.calledOnce(eventRepository.save);
@@ -38,14 +38,15 @@ describe('Unit | Service | Event ', function() {
 
         describe('When saving succeeds', () => {
 
-            it('should return an event link', () => {
+            it('should return an event url', () => {
                 // given
                 const hostId = 10;
                 const event = {
                     title: 'My random event'
                 };
 
-                eventRepository.save.resolves('SyFihZn_b');
+                const expectedUrl = { url: '/api/events/SyFihZn_b' };
+                eventRepository.save.resolves(expectedUrl);
 
                 // when
                 const promise = eventService.createEvent(hostId, event);
@@ -53,6 +54,8 @@ describe('Unit | Service | Event ', function() {
                 // then
                 return promise.then((result) => {
                     expect(result).to.not.be.null;
+                    expect(result).to.eql(expectedUrl);
+
                     const args = eventRepository.save.getCall(0).args[0];
                     expect(args).to.include.keys('title', 'hostId', 'url');
                     expect(args.title).to.eql(event.title);
@@ -63,37 +66,77 @@ describe('Unit | Service | Event ', function() {
         });
 
         describe('When something going wrong', () => {
-            it('should throw an error', () => {
+
+
+            const fakeCastError = {
+                errors: {
+                    hostId: {
+                        name: 'CastError'
+                    }
+                },
+                _message: 'User cast must be an object',
+                name: 'Error'
+            };
+
+            const fakeValidationError = {
+                errors: {
+                    title: {
+                        name: 'ValidationError'
+                    }
+                },
+                _message: 'User validation failed',
+                name: 'Error'
+            };
+
+            const fakeMultipleErrors = {
+                errors: {
+                    title: {
+                        name: 'ValidationError'
+                    },
+                    needs: {
+                        name: 'CastError'
+                    }
+                },
+                _message: 'User validation failed',
+                name: 'Error'
+            };
+
+            it('should return a rejected promise, when a required data is provided has not a valid format (CastError)', () => {
                 // given
-                const error = new EventCreationError();
-                eventRepository.save.rejects(error);
+                eventRepository.save.rejects(fakeCastError);
 
                 // when
-                const promise = eventService.createEvent(null, null);
+                const promise = eventService.createEvent(12, { title: 'fake event' });
 
                 // then
                 return promise.catch((err) => {
-                    expect(promise).to.be.rejected;
-                    expect(err).to.be.an.instanceof(EventCreationError);
+                    expect(err).to.eql([{ key: 'hostId', type: 'CastError' }]);
                 });
             });
 
-            it('should return a new errror, when event path validation fails', () => {
+            it('should return a rejected promise, when a required data is provided has not a valid format (ValidationError)', () => {
                 // given
-                const error = new Error();
-                error.name = 'ValidationError';
-                const event = {
-                    title: 'My random event'
-                };
-
-                eventRepository.save.rejects(error);
+                eventRepository.save.rejects(fakeValidationError);
 
                 // when
-                const promise = eventService.createEvent(null, event);
+                const promise = eventService.createEvent('599dad5cfcdab1aeb3915c6c', {});
 
                 // then
                 return promise.catch((err) => {
-                    expect(err).to.be.an.instanceof(EventCreationError);
+                    expect(err).to.eql([{ key: 'title', type: 'ValidationError' }]);
+                });
+            });
+
+            it('should return a rejected promise, when a multiple errors', () => {
+                // given
+                eventRepository.save.rejects(fakeMultipleErrors);
+
+                // when
+                const promise = eventService.createEvent('599dad5cfcdab1aeb3915c6c', { needs: '' });
+
+                // then
+                return promise.catch((err) => {
+                    expect(err).to.eql([{ key: 'title', type: 'ValidationError' }, { key: 'needs', type: 'CastError' }]);
                 });
             });
         });
