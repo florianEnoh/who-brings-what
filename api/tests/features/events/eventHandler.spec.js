@@ -4,7 +4,7 @@ const eventHandler = require('app/features/events/eventHandler');
 const hostService = require('app/domain/services/host-service');
 const eventService = require('app/domain/services/event-service');
 
-describe.only('Unit | Handler | Event Handler ', function() {
+describe('Unit | Handler | Event Handler ', function() {
 
     describe('#create', () => {
 
@@ -41,7 +41,7 @@ describe.only('Unit | Handler | Event Handler ', function() {
                     // given
                     replyStub.returns({ code: () => {} });
                     hostService.createHost.resolves({ _id: '' })
-                    const user = { user: { email: 'contact@flo.me', username: 'Flo' } };
+                    const user = { host: { email: 'contact@flo.me', username: 'Flo' } };
                     const request = {
                         payload: user
                     };

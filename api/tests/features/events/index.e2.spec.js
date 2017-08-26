@@ -1,6 +1,7 @@
 require('rootpath')();
-const { describe, it, expect, afterEach, beforeEach } = require('tests/helper');
+const { describe, it, expect, afterEach, beforeEach, sinon } = require('tests/helper');
 const route = require('app/features/events');
+const eventService = require('app/domain/services/event-service');
 
 describe('Acceptance | Route | Event - Index ', function() {
 
@@ -19,21 +20,62 @@ describe('Acceptance | Route | Event - Index ', function() {
 
         describe('when all parameters are goods', () => {
 
-            it('should response with 201 HTTP status code');
-            it('should response with event url');
-            it('should return a json');
+            it('should response with 201 HTTP status code, with an url json object', () => {
+                // when
+                return server.inject({
+                        method: 'POST',
+                        url: '/api/events',
+                        payload: {
+                            host: {
+                                username: 'Hypernikao'
+                            },
+                            event: {
+                                title: 'New potluck'
+                            }
+                        }
+                    }).then((res) => {
+                        // then
+                        expect(res.statusCode).to.equal(201);
+                        expect(res.result).to.include.keys('url');
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            });
 
         });
 
         describe('Errors cases', () => {
 
-            it('should response with 400 and serialized error, when no payload');
+            it('should response with 400 and serialized error, when no payload', () => {
+                // when
+                return server.inject({
+                    method: 'POST',
+                    url: '/api/events',
+                    payload: {
+                        event: {}
+                    }
+                }).then((res) => {
+                    // then
+                    expect(res.statusCode).to.equal(400);
+                    expect(res.result.message).to.contain('A valid host is required" is required');
+                });
+            });
 
-            it('should response with 422 and serialized error, when at least one parameter is bad');
-
-            it('should response with 422 and array of serialized error, when many error has occured');
-
-            it('should response with 500 and serialized error, when an unknown error has occured');
+            it('should response with 422 and serialized error, when at least one parameter is bad', () => {
+                // when
+                return server.inject({
+                    method: 'POST',
+                    url: '/api/events',
+                    payload: {
+                        host: {},
+                        event: {}
+                    }
+                }).then((res) => {
+                    // then
+                    expect(res.statusCode).to.equal(422);
+                });
+            });
 
         });
 
