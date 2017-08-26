@@ -5,6 +5,7 @@ const Event = require('app/domain/models/event');
 describe('Unit | Model | Event Schema ', function() {
 
     describe('Event schema', () => {
+
         it('should exist', () => {
             // when
             const event = new Event({});
@@ -55,7 +56,6 @@ describe('Unit | Model | Event Schema ', function() {
 
                 // then
                 expect(validation.errors).to.include.keys('title');
-                expect(validation.errors['title'].message).to.eql('A title is required');
             });
 
             it(`should get an error, when only title (ObjectId) is provided`, () => {
@@ -69,7 +69,20 @@ describe('Unit | Model | Event Schema ', function() {
 
                 // then
                 expect(validation.errors).to.include.keys('hostId');
-                expect(validation.errors['hostId'].message).to.eql('A host is required');
+            });
+
+            it('should get an error, when hostId, is not a valid object', () => {
+                // given
+                const event = new Event({
+                    title: 'event title',
+                    hostId: 'An host Id'
+                });
+
+                // when
+                const validation = event.validateSync();
+
+                // then
+                expect(validation.errors).to.include.keys('hostId');
             });
         });
 
