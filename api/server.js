@@ -32,7 +32,9 @@ module.exports = {
 
     BootStrapTestHelper(route) {
         const server = new Hapi.Server();
+        const db = require('./app/infrastructure/db');
         server.connection({ port: null });
+        db.create();
         server.register({ register: require(`./app/features/${route}`) }, { routes: { prefix: '/api' } });
         return server;
     },
