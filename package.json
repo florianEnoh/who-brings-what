@@ -12,6 +12,7 @@
     "license": "AGPLV3",
     "dependencies": {
         "hapi": "^16.5.2",
+        "joi": "^10.6.0",
         "mocha": "^3.3.0"
     },
     "devDependencies": {
