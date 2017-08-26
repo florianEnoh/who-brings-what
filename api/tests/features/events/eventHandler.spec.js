@@ -4,7 +4,7 @@ const eventHandler = require('app/features/events/eventHandler');
 const hostService = require('app/domain/services/host-service');
 const eventService = require('app/domain/services/event-service');
 
-describe('Unit | Handler | Event Handler ', function() {
+describe.only('Unit | Handler | Event Handler ', function() {
 
     describe('#create', () => {
 
@@ -40,18 +40,20 @@ describe('Unit | Handler | Event Handler ', function() {
                 it('should call a hostService', () => {
                     // given
                     replyStub.returns({ code: () => {} });
-                    hostService.createHost.resolves()
+                    hostService.createHost.resolves({ _id: '' })
                     const user = { user: { email: 'contact@flo.me', username: 'Flo' } };
                     const request = {
                         payload: user
                     };
 
                     // when
-                    eventHandler.create(request, replyStub);
+                    const promise = eventHandler.create(request, replyStub);
 
                     // then
-                    sinon.assert.calledOnce(hostService.createHost);
-                    sinon.assert.calledWith(hostService.createHost, { email: 'contact@flo.me', username: 'Flo' });
+                    return promise.then(() => {
+                        sinon.assert.calledOnce(hostService.createHost);
+                        sinon.assert.calledWith(hostService.createHost, { email: 'contact@flo.me', username: 'Flo' });
+                    });
                 });
 
                 it('should call a eventService', () => {
@@ -83,6 +85,28 @@ describe('Unit | Handler | Event Handler ', function() {
                 });
 
             });
+
+            describe('when an unknown error has occured ', () => {
+
+                it('should response with 500 and serialized error', () => {
+                    // given
+                    const error = new Error('unknown');
+                    const codeSpy = sinon.spy();
+                    replyStub.returns({ code: codeSpy });
+                    hostService.createHost.resolves({ _id: '5996a4851c8ce12abd2a4f5b' });
+                    eventService.createEvent.rejects(error);
+
+                    // when
+                    const promise = eventHandler.create(request, replyStub);
+
+                    // then
+                    return promise.then((err) => {
+                        sinon.assert.calledWith(codeSpy, 500);
+                    });
+
+                });
+            });
+
 
         });
     });
