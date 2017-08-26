@@ -4,7 +4,7 @@ const eventService = require('app/domain/services/event-service');
 const eventRepository = require('app/infrastructure/repositories/event-repository');
 const { EventCreationError } = require('app/domain/errors/errors');
 
-describe('Unit | Service | Event ', function() {
+describe.only('Unit | Service | Event ', function() {
 
     describe('#createEvent', () => {
 
@@ -137,6 +137,20 @@ describe('Unit | Service | Event ', function() {
                 // then
                 return promise.catch((err) => {
                     expect(err).to.eql([{ key: 'title', type: 'ValidationError' }, { key: 'needs', type: 'CastError' }]);
+                });
+            });
+
+            it('should reject a promise also when error is unknown', () => {
+                // given
+                const error = new Error();
+                eventRepository.save.rejects(error);
+
+                // when
+                const promise = eventService.createEvent('599dad5cfcdab1aeb3915c6c', { needs: '' });
+
+                // then
+                return promise.catch((err) => {
+                    expect(err).to.eql(error);
                 });
             });
         });

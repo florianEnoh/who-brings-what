@@ -19,6 +19,9 @@ module.exports = {
 };
 
 function _getErrors(err) {
+    if (!'errors' in err) {
+        return err;
+    }
     return Object.keys(err.errors).reduce((errorList, key) => {
         const { name: type } = err.errors[key];
         errorList.push({ key, type });
