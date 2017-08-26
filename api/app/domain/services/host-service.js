@@ -5,11 +5,16 @@ module.exports = {
     createHost(user) {
         return UserRepository
             .save(user)
-            .then((createdUserIdObject) => {
-                return createdUserIdObject['_id'];
-            })
             .catch((err) => {
-                throw err;
+                throw _getErrors(err);
             });
     }
+};
+
+function _getErrors(err) {
+    return Object.keys(err.errors).reduce((errorList, key) => {
+        const { name: type } = err.errors[key];
+        errorList.push({ key, type });
+        return errorList;
+    }, []);
 }

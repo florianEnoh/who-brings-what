@@ -2,7 +2,7 @@ require('rootpath')();
 const { describe, it, expect, server, sinon, beforeEach, afterEach } = require('tests/helper');
 const hostService = require('app/domain/services/host-service');
 const UserRepository = require('app/infrastructure/repositories/user-repository');
-const { HostCreationError } = require('app/domain/errors');
+const { HostCreationError } = require('app/domain/errors/errors');
 
 describe('Unit | Service | Host ', function() {
 
@@ -37,7 +37,7 @@ describe('Unit | Service | Host ', function() {
             });
         });
 
-        it('should call User repository', () => {
+        it('should call a  User repository', () => {
             // given
             UserRepository.save.rejects({});
 
@@ -60,24 +60,25 @@ describe('Unit | Service | Host ', function() {
 
         describe('When saving succeeds', () => {
 
-            it('should return a resolved promise with a userId', () => {
+            it('should return a resolved promise with a user', () => {
                 // given
-                const createdUserId = {
-                    "_id": '5996a7e208c6562b4c6c6579'
+                const createdUser = {
+                    "_id": '5996a7e208c6562b4c6c6579',
+                    username: 'flo'
                 };
 
                 const user = {
                     username: 'flo'
                 };
 
-                UserRepository.save.resolves(createdUserId);
+                UserRepository.save.resolves(createdUser);
 
                 // when
                 const promise = hostService.createHost(user);
 
                 // then
                 return promise.then((userId) => {
-                    expect(userId).to.equal('5996a7e208c6562b4c6c6579');
+                    expect(userId).to.equal(createdUser);
                 });
             });
 
@@ -87,17 +88,79 @@ describe('Unit | Service | Host ', function() {
 
         describe('When something going wrong', () => {
 
-            it('should return a rejected promise', () => {
+            const fakeCastError = {
+                errors: {
+                    email: {
+                        name: 'CastError'
+                    }
+                },
+                _message: 'User cast must be an object',
+                name: 'Error'
+            };
+
+            const fakeValidationError = {
+                errors: {
+                    username: {
+                        name: 'ValidationError'
+                    }
+                },
+                _message: 'User validation failed',
+                name: 'Error'
+            };
+
+            const fakeMultipleErrors = {
+                errors: {
+                    username: {
+                        name: 'ValidationError'
+                    },
+                    email: {
+                        name: 'CastError'
+                    }
+                },
+                _message: 'User validation failed',
+                name: 'Error'
+            };
+
+            describe('Invalid parameters', () => {
+
+                it('should return a rejected promise, when a required data is provided has not a valid format (CastError)', () => {
+                    // given
+                    UserRepository.save.rejects(fakeCastError);
+
+                    // when
+                    const promise = hostService.createHost({ username: 5 });
+
+                    // then
+                    return promise.catch((err) => {
+                        expect(err).to.eql([{ key: 'email', type: 'CastError' }]);
+                    });
+                });
+
+                it('should return a rejected promise, when a required data is provided has not a valid format (ValidationError)', () => {
+                    // given
+                    UserRepository.save.rejects(fakeValidationError);
+
+                    // when
+                    const promise = hostService.createHost({});
+
+                    // then
+                    return promise.catch((err) => {
+                        expect(err).to.eql([{ key: 'username', type: 'ValidationError' }]);
+                    });
+                });
+
+            });
+
+            it('should return a rejected promise, when a multiple errors', () => {
                 // given
-                UserRepository.save.rejects(new HostCreationError());
+                UserRepository.save.rejects(fakeMultipleErrors);
 
                 // when
-                const promise = hostService.createHost({});
+                const promise = hostService.createHost({ email: '' });
 
                 // then
                 return promise.catch((err) => {
-                    expect(promise).to.be.rejected;
-                    expect(err).to.be.an.instanceof(HostCreationError);
+                    expect(err).to.eql([{ key: 'username', type: 'ValidationError' }, { key: 'email', type: 'CastError' }]);
                 });
             });
 
