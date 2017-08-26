@@ -45,7 +45,8 @@ describe('Unit | Route | Event Index ', function() {
                 method: 'POST',
                 url: '/api/events',
                 payload: {
-                    username: 'Flo'
+                    host: {},
+                    event: {}
                 }
             }).then((res) => {
                 // then
