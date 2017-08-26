@@ -5,7 +5,7 @@ const eventService = require('../../domain/services/event-service');
 module.exports = {
     create(request, reply) {
         return hostService
-            .createHost(request.payload.user)
+            .createHost(request.payload.host)
             .then(({ _id: userId }) => {
                 return eventService.createEvent(userId, request.payload.event);
             })
