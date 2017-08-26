@@ -9,6 +9,9 @@ module.exports = {
         event['url'] = shortid.generate();
 
         return eventRepository.save(event)
+            .then(url => {
+                return { url: `/api/events/${url}` };
+            })
             .catch((err) => {
                 throw _getErrors(err);
             });

@@ -46,7 +46,7 @@ describe('Unit | Service | Event ', function() {
                 };
 
                 const expectedUrl = { url: '/api/events/SyFihZn_b' };
-                eventRepository.save.resolves(expectedUrl);
+                eventRepository.save.resolves('SyFihZn_b');
 
                 // when
                 const promise = eventService.createEvent(hostId, event);
