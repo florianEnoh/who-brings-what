@@ -9,8 +9,8 @@ exports.register = function(server, options, next) {
             handler: eventHandler.create,
             validate: {
                 payload: {
-                    host: Joi.object().required().label('A valid host is required'),
-                    event: Joi.object().required().label('A valid event details are required')
+                    host: Joi.object().required(),
+                    event: Joi.object().required()
                 }
             },
             tags: ['api']

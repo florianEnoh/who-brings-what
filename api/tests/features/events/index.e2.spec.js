@@ -58,7 +58,6 @@ describe('Acceptance | Route | Event - Index ', function() {
                 }).then((res) => {
                     // then
                     expect(res.statusCode).to.equal(400);
-                    expect(res.result.message).to.contain('A valid host is required" is required');
                 });
             });
 
