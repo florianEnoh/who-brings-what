@@ -20,27 +20,25 @@ describe('Acceptance | Route | Event - Index ', function() {
 
         describe('when all parameters are goods', () => {
 
-            it('should response with 201 HTTP status code, with an url json object', () => {
+            it('should response with 201 HTTP status code, with an url json object', (done) => {
                 // when
-                return server.inject({
-                        method: 'POST',
-                        url: '/api/events',
-                        payload: {
-                            host: {
-                                username: 'Hypernikao'
-                            },
-                            event: {
-                                title: 'New potluck'
-                            }
+                server.inject({
+                    method: 'POST',
+                    url: '/api/events',
+                    payload: {
+                        host: {
+                            username: 'Hypernikao'
+                        },
+                        event: {
+                            title: 'New potluck'
                         }
-                    }).then((res) => {
-                        // then
-                        expect(res.statusCode).to.equal(201);
-                        expect(res.result).to.include.keys('url');
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                    }
+                }).then((res) => {
+                    // then
+                    expect(res.statusCode).to.equal(201);
+                    expect(res.result).to.include.keys('url');
+                    done();
+                });
             });
 
         });
