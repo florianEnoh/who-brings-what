@@ -1,0 +1,10 @@
+const server  = require('../server');
+const db = require('../app/infrastructure/db');
+
+server.start()
+    .then(function() {
+        db.create();
+        console.log('server is available on http://localhost:8080/');
+    }).catch(function(err) {
+        console.log(err);
+    });
