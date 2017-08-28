@@ -2,7 +2,6 @@ require('rootpath')();
 const { describe, it, expect, server, sinon, beforeEach, afterEach } = require('tests/helper');
 const eventService = require('app/domain/services/event-service');
 const eventRepository = require('app/infrastructure/repositories/event-repository');
-const { EventCreationError } = require('app/domain/errors/errors');
 
 describe('Unit | Service | Event ', function() {
 
@@ -25,6 +24,24 @@ describe('Unit | Service | Event ', function() {
             sandbox.restore();
         });
 
+        it('should call with default values, when none is provided', () => {
+            // given
+            const expectedEventCalled = {
+                hostId: '',
+            };
+            eventRepository.save.resolves('');
+
+            // when
+            const promise = eventService.createEvent();
+
+            // then
+            return promise.then(() => {
+                const args = eventRepository.save.getCall(0).args[0];
+                expect(args).to.include.keys('url', 'hostId');
+                expect(args.hostId).to.be.empty;
+            });
+        });
+
         it('should call Event Repository', () => {
             // given
             eventRepository.save.resolves('');
@@ -35,6 +52,8 @@ describe('Unit | Service | Event ', function() {
             // then
             sinon.assert.calledOnce(eventRepository.save);
         });
+
+
 
         describe('When saving succeeds', () => {
 
@@ -140,7 +159,7 @@ describe('Unit | Service | Event ', function() {
                 });
             });
 
-            it('should reject a promise also when error is unknown', () => {
+            it('should reject a promise also when error is unknown', (done) => {
                 // given
                 const error = new Error();
                 eventRepository.save.rejects(error);
@@ -149,8 +168,9 @@ describe('Unit | Service | Event ', function() {
                 const promise = eventService.createEvent('599dad5cfcdab1aeb3915c6c', { needs: '' });
 
                 // then
-                return promise.catch((err) => {
+                promise.catch((err) => {
                     expect(err).to.eql(error);
+                    done();
                 });
             });
         });

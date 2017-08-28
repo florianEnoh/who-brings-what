@@ -2,7 +2,6 @@ require('rootpath')();
 const { describe, it, expect, server, sinon, beforeEach, afterEach } = require('tests/helper');
 const hostService = require('app/domain/services/host-service');
 const UserRepository = require('app/infrastructure/repositories/user-repository');
-const { HostCreationError } = require('app/domain/errors/errors');
 
 describe('Unit | Service | Host ', function() {
 

@@ -12,7 +12,7 @@ module.exports = {
 };
 
 function _getErrors(err) {
-    if (!'errors' in err) {
+    if (!('errors' in err)) {
         return err;
     }
 

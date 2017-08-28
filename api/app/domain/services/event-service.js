@@ -1,6 +1,5 @@
 const shortid = require('shortid');
 const eventRepository = require('../../infrastructure/repositories/event-repository');
-const { EventCreationError } = require('../../domain/errors/errors');
 
 module.exports = {
     createEvent(hostId = '', event = {}) {
@@ -19,7 +18,7 @@ module.exports = {
 };
 
 function _getErrors(err) {
-    if (!'errors' in err) {
+    if (!('errors' in err)) {
         return err;
     }
     return Object.keys(err.errors).reduce((errorList, key) => {
