@@ -8,7 +8,7 @@ const eventSchema = new Schema({
     url: String,
     hostId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     guestsIds: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    needs: [{ name: String, quantity: Number }],
+    needs: [{ name: String, quantity: Number, category: String }],
     comments: String,
     createdAt: { type: Date, default: Date.now }
 });
