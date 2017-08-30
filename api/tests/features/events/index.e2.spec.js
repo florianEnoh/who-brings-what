@@ -77,4 +77,28 @@ describe('Acceptance | Route | Event - Index ', function() {
         });
 
     });
+
+    describe('Post /api/events/{id}/guests', () => {
+
+        describe('when all parameters are goods', () => {
+
+            it.skip('should response with 201 HTTP status code, with an url json object', (done) => {
+                // when
+                server.inject({
+                    method: 'POST',
+                    url: '/api/events/1/guests',
+                    payload: {
+                        guest: {
+                            username: 'Hypernikao'
+                        },
+                    }
+                }).then((res) => {
+                    // then
+                    expect(res.statusCode).to.equal(201);
+                    done();
+                });
+            });
+        });
+
+    });
 });

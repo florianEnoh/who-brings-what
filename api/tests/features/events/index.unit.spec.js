@@ -54,4 +54,32 @@ describe('Unit | Route | Event Index ', function() {
             });
         });
     });
+
+
+    describe('Route POST /api/events/{id}/guests', () => {
+
+        before(() => {
+            sinon.stub(eventHandler, 'addGuest').callsFake((request, reply) => reply(request.params.id));
+        });
+
+        after(() => {
+            eventHandler.addGuest.restore();
+        });
+
+        it('should exist', () => {
+            // when
+            return server.inject({
+                method: 'POST',
+                url: '/api/events/5/guests',
+                payload: {
+                    guest: {
+                        username: 'flo-guest'
+                    }
+                }
+            }).then((res) => {
+                // then
+                expect(res.statusCode).to.equal(200);
+            });
+        });
+    });
 });
