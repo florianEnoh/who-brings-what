@@ -1,6 +1,6 @@
 require('rootpath')();
 const { describe, it, expect, server, sinon, beforeEach, afterEach } = require('tests/helper');
-const hostService = require('app/domain/services/host-service');
+const userService = require('app/domain/services/user-service');
 const UserRepository = require('app/infrastructure/repositories/user-repository');
 
 describe('Unit | Service | Host ', function() {
@@ -20,7 +20,7 @@ describe('Unit | Service | Host ', function() {
 
         it('should be a function', () => {
             // then
-            expect(hostService.createHost).to.be.a('function');
+            expect(userService.createHost).to.be.a('function');
         });
 
         it('should return a promise', () => {
@@ -28,7 +28,7 @@ describe('Unit | Service | Host ', function() {
             UserRepository.save.rejects(new Error());
 
             // when
-            const promise = hostService.createHost({});
+            const promise = userService.createHost({});
 
             // then
             return promise.catch(() => {
@@ -45,7 +45,7 @@ describe('Unit | Service | Host ', function() {
             }
 
             // when
-            const promise = hostService.createHost(user);
+            const promise = userService.createHost(user);
 
             // then
             return promise.catch(() => {
@@ -73,7 +73,7 @@ describe('Unit | Service | Host ', function() {
                 UserRepository.save.resolves(createdUser);
 
                 // when
-                const promise = hostService.createHost(user);
+                const promise = userService.createHost(user);
 
                 // then
                 return promise.then((userId) => {
@@ -127,7 +127,7 @@ describe('Unit | Service | Host ', function() {
                     UserRepository.save.rejects(fakeCastError);
 
                     // when
-                    const promise = hostService.createHost({ username: 5 });
+                    const promise = userService.createHost({ username: 5 });
 
                     // then
                     return promise.catch((err) => {
@@ -140,7 +140,7 @@ describe('Unit | Service | Host ', function() {
                     UserRepository.save.rejects(fakeValidationError);
 
                     // when
-                    const promise = hostService.createHost({});
+                    const promise = userService.createHost({});
 
                     // then
                     return promise.catch((err) => {
@@ -155,7 +155,7 @@ describe('Unit | Service | Host ', function() {
                 UserRepository.save.rejects(fakeMultipleErrors);
 
                 // when
-                const promise = hostService.createHost({ email: '' });
+                const promise = userService.createHost({ email: '' });
 
                 // then
                 return promise.catch((err) => {
@@ -169,7 +169,7 @@ describe('Unit | Service | Host ', function() {
                 UserRepository.save.rejects(error);
 
                 // when
-                const promise = hostService.createHost({ email: '' });
+                const promise = userService.createHost({ email: '' });
 
                 // then
                 return promise.catch((err) => {
