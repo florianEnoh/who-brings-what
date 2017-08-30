@@ -1,10 +1,10 @@
 const Boom = require('boom');
-const hostService = require('../../domain/services/host-service');
+const userService = require('../../domain/services/user-service');
 const eventService = require('../../domain/services/event-service');
 
 module.exports = {
     create(request, reply) {
-        return hostService
+        return userService
             .createHost(request.payload.host)
             .then(({ _id: userId }) => {
                 return eventService.createEvent(userId, request.payload.event);
@@ -14,6 +14,10 @@ module.exports = {
                 const statusCode = _getErrorStatusCode(err);
                 reply(err).code(statusCode);
             });
+    },
+
+    addGuest(request, reply) {
+        reply();
     }
 };
 

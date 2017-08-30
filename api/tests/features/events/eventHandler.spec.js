@@ -1,7 +1,7 @@
 require('rootpath')();
 const { describe, it, expect, server, sinon, beforeEach, afterEach } = require('tests/helper');
 const eventHandler = require('app/features/events/eventHandler');
-const hostService = require('app/domain/services/host-service');
+const userService = require('app/domain/services/user-service');
 const eventService = require('app/domain/services/event-service');
 
 describe('Unit | Handler | Event Handler ', function() {
@@ -26,7 +26,7 @@ describe('Unit | Handler | Event Handler ', function() {
 
             beforeEach(() => {
                 sandbox = sinon.sandbox.create();
-                sandbox.stub(hostService, 'createHost');
+                sandbox.stub(userService, 'createHost');
                 sandbox.stub(eventService, 'createEvent');
                 replyStub = sandbox.stub();
             });
@@ -40,7 +40,7 @@ describe('Unit | Handler | Event Handler ', function() {
                 it('should call a hostService', () => {
                     // given
                     replyStub.returns({ code: () => {} });
-                    hostService.createHost.resolves({ _id: '' })
+                    userService.createHost.resolves({ _id: '' })
                     const user = { host: { email: 'contact@flo.me', username: 'Flo' } };
                     const request = {
                         payload: user
@@ -51,15 +51,15 @@ describe('Unit | Handler | Event Handler ', function() {
 
                     // then
                     return promise.then(() => {
-                        sinon.assert.calledOnce(hostService.createHost);
-                        sinon.assert.calledWith(hostService.createHost, { email: 'contact@flo.me', username: 'Flo' });
+                        sinon.assert.calledOnce(userService.createHost);
+                        sinon.assert.calledWith(userService.createHost, { email: 'contact@flo.me', username: 'Flo' });
                     });
                 });
 
                 it('should call a eventService', () => {
                     // given
                     replyStub.returns({ code: () => {} });
-                    hostService.createHost.resolves({ _id: '5996a4851c8ce12abd2a4f5b' });
+                    userService.createHost.resolves({ _id: '5996a4851c8ce12abd2a4f5b' });
 
                     const request = {
                         payload: {
@@ -93,7 +93,7 @@ describe('Unit | Handler | Event Handler ', function() {
                     const error = new Error('unknown');
                     const codeSpy = sinon.spy();
                     replyStub.returns({ code: codeSpy });
-                    hostService.createHost.resolves({ _id: '5996a4851c8ce12abd2a4f5b' });
+                    userService.createHost.resolves({ _id: '5996a4851c8ce12abd2a4f5b' });
                     eventService.createEvent.rejects(error);
 
                     // when
@@ -107,6 +107,19 @@ describe('Unit | Handler | Event Handler ', function() {
                 });
             });
 
+
+        });
+    });
+
+    describe('#addGuest', () => {
+
+        it('should be a function', () => {
+            // then
+            expect(eventHandler.addGuest).to.exist;
+            expect(eventHandler.addGuest).to.be.a('function');
+        });
+
+        describe('Test collaborations', () => {
 
         });
     });
