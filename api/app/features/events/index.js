@@ -18,15 +18,29 @@ exports.register = function(server, options, next) {
         },
         {
             method: 'POST',
-            path: '/events/{id}/guests',
+            path: '/events/{code}/guests',
             config: {
                 handler: eventHandler.addGuest,
                 validate: {
                     params: {
-                        id: Joi.number()
+                        code: Joi.string()
                     },
                     payload: {
-                        guest: Joi.object().required()
+                        guest: Joi.object().required(),
+                        contribution: Joi.array().required()
+                    }
+                },
+                tags: ['api']
+            }
+        },
+        {
+            method: 'GET',
+            path: '/events/{code}',
+            config: {
+                handler: eventHandler.fetch,
+                validate: {
+                    params: {
+                        code: Joi.string()
                     }
                 },
                 tags: ['api']

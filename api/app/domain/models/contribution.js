@@ -4,7 +4,7 @@ const Mongoose = require('mongoose'),
 const contributionSchema = new Schema({
     eventId: { type: Schema.Types.ObjectId, ref: 'Event', require: true },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    involvements: [{ name: String, quantity: Number }],
+    involvements: [{ name: String, quantity: Number, category: String }],
     createdAt: { type: Date, default: Date.now }
 });
 

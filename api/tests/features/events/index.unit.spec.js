@@ -56,7 +56,7 @@ describe('Unit | Route | Event Index ', function() {
     });
 
 
-    describe('Route POST /api/events/{id}/guests', () => {
+    describe('Route POST /api/events/{code}/guests', () => {
 
         before(() => {
             sinon.stub(eventHandler, 'addGuest').callsFake((request, reply) => reply(request.params.id));
@@ -74,8 +74,32 @@ describe('Unit | Route | Event Index ', function() {
                 payload: {
                     guest: {
                         username: 'flo-guest'
-                    }
+                    },
+                    contribution: []
                 }
+            }).then((res) => {
+                // then
+                expect(res.statusCode).to.equal(200);
+            });
+        });
+    });
+
+    describe('Route GET /api/events/{code}', () => {
+
+        before(() => {
+            sinon.stub(eventHandler, 'fetch').callsFake((request, reply) => reply(request.params.id));
+        });
+
+        after(() => {
+            eventHandler.fetch.restore();
+        });
+
+        it('should exist', () => {
+            // when
+            return server.inject({
+                method: 'GET',
+                url: '/api/events/5ABDRT',
+                payload: {}
             }).then((res) => {
                 // then
                 expect(res.statusCode).to.equal(200);

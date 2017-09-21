@@ -5,7 +5,7 @@ const eventSchema = new Schema({
     title: { type: String, required: true },
     location: String,
     date: String,
-    url: String,
+    code: String,
     hostId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     guestsIds: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     needs: [{ name: String, quantity: Number, category: String, status: Number }],
