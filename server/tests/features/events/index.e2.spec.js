@@ -143,7 +143,7 @@ describe('Acceptance | Route | Event - Index ', function() {
         // when
         return server.inject({
           method: 'POST',
-          url: '/api/events/cz157l1j8lj7dihxd2/guests',
+          url: `/api/events/${generatedEventCode}/guests`,
           payload: {
             guest: {
               username: null
