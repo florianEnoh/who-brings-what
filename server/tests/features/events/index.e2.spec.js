@@ -6,6 +6,7 @@ const eventService = require('app/domain/services/event-service');
 describe('Acceptance | Route | Event - Index ', function() {
 
   let server;
+  let generatedEventCode;
 
   beforeEach(() => {
     server = require('server').BootStrapTestHelper('events');
@@ -40,6 +41,7 @@ describe('Acceptance | Route | Event - Index ', function() {
           expect(res.result.hostId).to.exist;
           expect(res.result.code).to.exist;
           expect(res.result.needs).to.exist;
+          generatedEventCode = res.result.code;
           done();
         });
       });
@@ -91,7 +93,7 @@ describe('Acceptance | Route | Event - Index ', function() {
         // when
         server.inject({
           method: 'POST',
-          url: '/api/events/cz157l1j8lj7dihxd2/guests',
+          url: `/api/events/${generatedEventCode}/guests`,
           payload: {
             guest: {
               username: 'Hypernikao'
@@ -163,7 +165,7 @@ describe('Acceptance | Route | Event - Index ', function() {
     it('should response with 200 HTTP status code, with aggregated event', () => {
       return server.inject({
         method: 'GET',
-        url: '/api/events/cz157l1j8lj7dihxd2',
+        url: `/api/events/${generatedEventCode}`,
         payload: {}
       }).then((res) => {
         // then
