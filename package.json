@@ -4,9 +4,9 @@
   "description": "",
   "main": "",
   "scripts": {
-    "test": "cd api && npm install && npm run test",
-    "cover": "cd api && npm run coverage",
-    "coveralls": "cd api && npm run coveralls"
+    "test": "cd server && npm install && npm run test",
+    "cover": "cd server && npm run coverage",
+    "coveralls": "cd server && npm run coveralls"
   },
   "author": "",
   "license": "AGPLV3",
