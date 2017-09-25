@@ -1,5 +1,9 @@
 const plugins = [
-    require('blipp'), {
+    require('blipp'),
+    require('inert'),
+    require('vision'),
+    require('hapi-swagger'),
+    {
         register: require('good'),
         options: {
             reporters: {

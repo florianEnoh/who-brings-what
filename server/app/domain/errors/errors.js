@@ -1,7 +1,5 @@
 class EventNotFoundError extends Error {
-    constructor() {
-        super();
-    }
+    constructor() {}
 
     static toJson() {
         return {
