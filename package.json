@@ -1,22 +1,19 @@
 {
-    "name": "who-brings-what",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "cd api && npm install && npm run test",
-        "cover": "cd api && npm run coverage",
-        "coveralls": "cd api && npm run coveralls"
-    },
-    "author": "",
-    "license": "AGPLV3",
-    "dependencies": {
-        "hapi": "^16.5.2",
-        "joi": "^10.6.0",
-        "mocha": "^3.3.0"
-    },
-    "devDependencies": {
-        "coveralls": "^2.13.1",
-        "mocha-lcov-reporter": "^1.3.0"
-    }
+  "name": "who-brings-what",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "cd server && npm install && npm run test",
+    "cover": "cd server && npm run coverage",
+    "coveralls": "cd server && npm run coveralls"
+  },
+  "author": "",
+  "license": "AGPLV3",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+
+  }
 }
